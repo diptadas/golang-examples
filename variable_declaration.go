@@ -29,12 +29,12 @@ func main() {
 	fmt.Println(a, b, c)
 
 	//constants
-	const pi float32  = 3.1416
+	const pi float32 = 3.1416
 	const pi2 = 9.87 //infer data type based on value
 	fmt.Println(pi, pi2)
 
-	const(
-		_pi = 3.1416
+	const (
+		_pi  = 3.1416
 		_pi2 = 9.87
 	)
 	fmt.Println(_pi, _pi2)

@@ -1,12 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"path"
-	"fmt"
 )
 
 func downloadFile(url, filePath string, replace bool) error {
@@ -50,7 +50,7 @@ func downloadFile(url, filePath string, replace bool) error {
 	return nil
 }
 
-func main()  {
+func main() {
 	url := "http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_10mb.mp4"
 	filePath := "/home/dipta/Downloads/big_buck_bunny.mp4"
 

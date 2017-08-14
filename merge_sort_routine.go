@@ -2,9 +2,9 @@ package main
 
 import "fmt"
 
-func merge (a []int, b []int) []int {
+func merge(a []int, b []int) []int {
 
-	var r = make([]int, len(a) + len(b))
+	var r = make([]int, len(a)+len(b))
 	var i = 0
 	var j = 0
 
@@ -18,13 +18,19 @@ func merge (a []int, b []int) []int {
 		}
 	}
 
-	for i < len(a) { r[i+j] = a[i]; i++ }
-	for j < len(b) { r[i+j] = b[j]; j++ }
+	for i < len(a) {
+		r[i+j] = a[i]
+		i++
+	}
+	for j < len(b) {
+		r[i+j] = b[j]
+		j++
+	}
 
 	return r
 }
 
-func mergeSort (items []int, ch chan []int) {
+func mergeSort(items []int, ch chan []int) {
 
 	if len(items) < 2 {
 		ch <- items
@@ -44,8 +50,8 @@ func mergeSort (items []int, ch chan []int) {
 	ch <- merge(part1, part2)
 }
 
-func main () {
+func main() {
 	ch := make(chan []int)
-	go mergeSort([]int{ 10, 9, 8, 4, 5, 6, 7, 3, 2, 1 }, ch)
+	go mergeSort([]int{10, 9, 8, 4, 5, 6, 7, 3, 2, 1}, ch)
 	fmt.Println(<-ch)
 }

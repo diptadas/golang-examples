@@ -22,14 +22,14 @@ func main() {
 	go f1(str)
 	go f2(str)
 
-	for i:=0; i<2; i++{
+	for i := 0; i < 2; i++ {
 
 		fmt.Println("waiting for msg")
-		msg := <- str
+		msg := <-str
 
 		if msg == "1" {
 			fmt.Println("done 1")
-		}else if msg == "2"{
+		} else if msg == "2" {
 			fmt.Println("done 2")
 		}
 	}
