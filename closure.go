@@ -2,31 +2,24 @@ package main
 
 import "fmt"
 
-func main(){
+func main() {
+	num := 0
 
-	num := 2
-
-	cls := func() int {
-		num *= 2
-		return  num
+	cls := func(n int) int {
+		fmt.Println("closure cls called")
+		if num > n {
+			return num - n
+		} else {
+			return n - num
+		}
 	}
 
-	fmt.Println(num)
-	fmt.Println(cls())
-	fmt.Println(num)
-	fmt.Println(cls())
-	fmt.Println(num)
-
-        fmt.Println("=============")
-
-	cls2 := func(num int) int {
-		num *= 2
-		return  num
-	}
+	func(n int) {
+		fmt.Println("anonymous closure called")
+		num = num + n
+	}(10)
 
 	fmt.Println(num)
-	fmt.Println(cls2(num))
-	fmt.Println(num)
-	fmt.Println(cls2(num))
-	fmt.Println(num)
+	fmt.Println(cls(100))
+	fmt.Println(cls(500))
 }
