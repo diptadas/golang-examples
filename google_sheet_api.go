@@ -66,7 +66,7 @@ func main() {
 	}
 
 	spreadsheetId := "1TKojDv8-vNT7AK-re9ShMVh3qauYkuiu_skhyvYqN7o"
-	readRange := "Sheet1!B2:B2"
+	readRange := "Sheet1!10:12"
 
 	resp, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
@@ -75,7 +75,10 @@ func main() {
 
 	if len(resp.Values) > 0 {
 		for _, row := range resp.Values {
-			fmt.Println(row)
+			for _, value := range row {
+				fmt.Print(value, " ")
+			}
+			fmt.Println()
 		}
 	} else {
 		fmt.Print("No data found.")
