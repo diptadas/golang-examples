@@ -2,9 +2,24 @@ package test
 
 import "testing"
 
+type testpair struct {
+	input  []int
+	output int
+}
+
+var tests = []testpair{
+	{[]int{0, 1, 2}, 3},
+	{[]int{1, 2, 3}, 5}, // fail
+	{[]int{2, 3, 4}, 9},
+ 	{[]int{1, 1, 1}, 2}, // fail
+	{[]int{2, 2, 2}, 6},
+}
+
 func TestSum(t *testing.T) {
-	ret := Sum([]int{1, 2, 3})
-	if ret != 6 {
-		t.Error("Expected 6, got ", ret)
+	for _, item := range tests {
+		ret := Sum(item.input)
+		if ret != item.output {
+			t.Errorf("Expected %v, got %v", item.output, ret)
+		}
 	}
 }
