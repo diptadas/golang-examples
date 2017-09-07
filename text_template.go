@@ -70,6 +70,38 @@ func example_3() {
 	check(tmp.Execute(os.Stdout, []int{}))
 }
 
+func example_4() {
+	type person struct {
+		Name   string
+		Emails []string
+	}
+	me := person{
+		Name:   "Dipta",
+		Emails: []string{"abc@gmail.com", "pqr@gmail.com"},
+	}
+
+	tmpStr := `{{$name := .Name}}
+{{range .Emails}} Name: {{$name}} Email: {{.}}
+{{end}}`
+	tmp := template.Must(template.New("test").Parse(tmpStr))
+	check(tmp.Execute(os.Stdout, me))
+}
+
+func example_5() {
+	tmpStr := `Grade:
+{{- if ge . 80}} A
+{{- else if ge . 60}} B
+{{- else if ge . 40}} C
+{{- else}} Fail
+{{- end}}
+`
+	tmp := template.Must(template.New("test").Parse(tmpStr))
+	check(tmp.Execute(os.Stdout, 65))
+	check(tmp.Execute(os.Stdout, 80))
+	check(tmp.Execute(os.Stdout, 35))
+	check(tmp.Execute(os.Stdout, 45))
+}
+
 func main() {
 	example_0()
 }
