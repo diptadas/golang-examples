@@ -102,6 +102,27 @@ func example_5() {
 	check(tmp.Execute(os.Stdout, 45))
 }
 
+func example_6() {
+	tmpStr := `Name:
+{{- with .}} {{.}}
+{{- else}} not found
+{{- end}}
+`
+	tmp := template.Must(template.New("test").Parse(tmpStr))
+	check(tmp.Execute(os.Stdout, "dipta"))
+	check(tmp.Execute(os.Stdout, ""))
+}
+
+func example_7() {
+	tmpStr := `{{define "T1"}}Apple{{end}}
+{{- define "T2"}}Ape{{end}}
+{{- define "T3"}}{{template "T2"}} {{.}} {{template "T1"}}{{end}}
+{{- template "T3" .}}`
+
+	tmp := template.Must(template.New("test").Parse(tmpStr))
+	check(tmp.Execute(os.Stdout, "ate"))
+}
+
 func main() {
 	example_0()
 }
