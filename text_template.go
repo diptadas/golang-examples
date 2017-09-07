@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"strings"
 	"text/template"
 )
 
@@ -121,6 +122,38 @@ func example_7() {
 
 	tmp := template.Must(template.New("test").Parse(tmpStr))
 	check(tmp.Execute(os.Stdout, "ate"))
+}
+
+func example_8() {
+	tmpStr := `{{define "T1"}}Name: {{.}} {{end}}
+{{- template "T1" .}}
+`
+	tmp := template.Must(template.New("test").Parse(tmpStr))
+	check(tmp.Execute(os.Stdout, "dipta"))
+
+	// shorthand using block
+	tmpStr = `{{block "T1" .}}Name: {{.}} {{end}}`
+	tmp = template.Must(template.New("test").Parse(tmpStr))
+	check(tmp.Execute(os.Stdout, "dipta"))
+}
+
+func example_9() {
+	names := []string{"Stark", "Targaryen", "Lannister"}
+
+	tmpStr := `Names:
+{{- block "list" .}}
+{{range .}}{{println "-" .}}{{end}}
+{{- end}}
+`
+	tmp := template.Must(template.New("test").Parse(tmpStr))
+
+	tmpStrOverlay := `{{define "list"}} {{join . ", "}} {{end}}`
+	funcs := template.FuncMap{"join": strings.Join}
+	t_overlay, err := template.Must(tmp.Clone()).Funcs(funcs).Parse(tmpStrOverlay)
+	check(err)
+
+	check(tmp.Execute(os.Stdout, names))
+	check(t_overlay.Execute(os.Stdout, names))
 }
 
 func main() {
