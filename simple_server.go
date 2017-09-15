@@ -30,3 +30,19 @@ func main() {
 		log.Fatal("ListenAndServe:", err)
 	}
 }
+
+/*
+Dockerfile:
+FROM ubuntu
+ADD ./simple_server simple-server
+EXPOSE 9090
+
+Build:
+$ docker build -t simple-server .
+
+Run:
+$ docker run -it simple-server ./simple-server -arg=appscode
+
+Request:
+$ curl 'localhost:9090?a=1&&b=1'
+*/
