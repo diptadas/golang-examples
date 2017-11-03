@@ -16,12 +16,12 @@ import (
 func getClient(fileName string) (*http.Client, error) {
 	b, err := ioutil.ReadFile(fileName)
 	if err != nil {
-		return nil, fmt.Errorf("Unable to read client secret file: %v", err)
+		return nil, fmt.Errorf("unable to read client secret file: %v", err)
 	}
 
 	config, err := google.ConfigFromJSON(b, "https://www.googleapis.com/auth/spreadsheets.readonly")
 	if err != nil {
-		return nil, fmt.Errorf("Unable to parse client secret file to config: %v", err)
+		return nil, fmt.Errorf("unable to parse client secret file to config: %v", err)
 	}
 
 	tok, err := getTokenFromWeb(config)
@@ -44,12 +44,12 @@ func getTokenFromWeb(config *oauth2.Config) (*oauth2.Token, error) {
 
 	var code string
 	if _, err := fmt.Scan(&code); err != nil {
-		return nil, fmt.Errorf("Unable to read authorization code %v", err)
+		return nil, fmt.Errorf("unable to read authorization code %v", err)
 	}
 
 	tok, err := config.Exchange(oauth2.NoContext, code)
 	if err != nil {
-		return nil, fmt.Errorf("Unable to retrieve token from web %v", err)
+		return nil, fmt.Errorf("unable to retrieve token from web %v", err)
 	}
 	return tok, nil
 }
@@ -62,7 +62,7 @@ func main() {
 
 	srv, err := sheets.New(client)
 	if err != nil {
-		panic(fmt.Errorf("Unable to retrieve Sheets Client %v", err))
+		panic(fmt.Errorf("unable to retrieve Sheets Client %v", err))
 	}
 
 	spreadsheetId := "1TKojDv8-vNT7AK-re9ShMVh3qauYkuiu_skhyvYqN7o"
@@ -70,7 +70,7 @@ func main() {
 
 	resp, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
-		panic(fmt.Errorf("Unable to retrieve data from sheet. %v", err))
+		panic(fmt.Errorf("unable to retrieve data from sheet. %v", err))
 	}
 
 	if len(resp.Values) > 0 {
