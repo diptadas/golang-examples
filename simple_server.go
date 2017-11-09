@@ -37,8 +37,8 @@ Build:
 $ docker build -t simple-server .
 
 Run:
-$ docker run -it simple-server ./simple-server -arg=appscode
+$ docker run -it simple-server ./simple-server -arg=appscode -p 9090:9090
 
 Request:
-$ curl -p 9090:9090 'localhost:9090?a=1&&b=1'
+$ curl '127.0.0.1:9090?a=1&&b=1'
 */
