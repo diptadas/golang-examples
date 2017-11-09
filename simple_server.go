@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
 )
 
 func main() {
@@ -13,15 +12,12 @@ func main() {
 	flag.Parse()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("\n=============Request=============\n%+v\n*********************************\n", r)
 		r.ParseForm()
-		log.Println("Request:", r.Form)
-
-		resp := *arg + ":\n"
-		for k, v := range r.Form {
-			resp += k + "=" + strings.Join(v, "") + "\n"
-		}
-
-		log.Println("Response:", resp)
+		resp := fmt.Sprintln("Arg:", *arg)
+		resp += fmt.Sprintln("Sender:", r.RemoteAddr)
+		resp += fmt.Sprintln("Host:", r.Host)
+		resp += fmt.Sprintln("Form:", r.Form)
 		fmt.Fprintf(w, resp)
 	})
 
@@ -44,5 +40,5 @@ Run:
 $ docker run -it simple-server ./simple-server -arg=appscode
 
 Request:
-$ curl 'localhost:9090?a=1&&b=1'
+$ curl -p 9090:9090 'localhost:9090?a=1&&b=1'
 */
