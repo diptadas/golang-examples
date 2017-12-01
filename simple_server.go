@@ -1,44 +1,68 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"net/http"
+	"net/http/httputil"
 )
 
 func main() {
-	arg := flag.String("arg", "Dipta", "A string")
-	flag.Parse()
+	server8080 := http.NewServeMux()
+	server8080.HandleFunc("/", handler8080)
+	fmt.Println("Starting server: Port: 8080")
+	go http.ListenAndServe(":8080", server8080)
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("\n=============Request=============\n%+v\n*********************************\n", r)
-		r.ParseForm()
-		resp := fmt.Sprintln("Arg:", *arg)
-		resp += fmt.Sprintln("Sender:", r.RemoteAddr)
-		resp += fmt.Sprintln("Host:", r.Host)
-		resp += fmt.Sprintln("Form:", r.Form)
-		fmt.Fprintf(w, resp)
-	})
+	server8081 := http.NewServeMux()
+	server8081.HandleFunc("/foo", handlerFoo8081)
+	server8081.HandleFunc("/bar", handlerBar8081)
+	fmt.Println("Starting server: Port: 8081")
+	go http.ListenAndServe(":8081", server8081)
 
-	log.Println("Starting server: Port: 9090 Argument:", *arg)
-	if err := http.ListenAndServe(":9090", nil); err != nil {
-		log.Fatal("ListenAndServe:", err)
-	}
+	select {}
 }
 
-/*
-Dockerfile:
-FROM ubuntu
-ADD ./simple_server simple-server
-EXPOSE 9090
+func handler8080(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("===============Request: 8080===============")
+	fmt.Println(*r)
 
-Build:
-$ docker build -t simple-server .
+	req, err := httputil.DumpRequest(r, true)
+	if err != nil {
+		log.Println("Error:", err)
+	}
+	if _, err = fmt.Fprintf(w, string(req)); err != nil {
+		log.Println("Error:", err)
+	}
 
-Run:
-$ docker run -it simple-server ./simple-server -arg=appscode -p 9090:9090
+	fmt.Println("*******************************************")
+}
 
-Request:
-$ curl '127.0.0.1:9090?a=1&&b=1'
-*/
+func handlerFoo8081(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("=============Request: 8081/foo=============")
+	fmt.Println(*r)
+
+	req, err := httputil.DumpRequest(r, true)
+	if err != nil {
+		log.Println("Error:", err)
+	}
+	if _, err = fmt.Fprintf(w, string(req)); err != nil {
+		log.Println("Error:", err)
+	}
+
+	fmt.Println("*******************************************")
+}
+
+func handlerBar8081(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("=============Request: 8081/bar=============")
+	fmt.Println(*r)
+
+	req, err := httputil.DumpRequest(r, true)
+	if err != nil {
+		log.Println("Error:", err)
+	}
+	if _, err = fmt.Fprintf(w, string(req)); err != nil {
+		log.Println("Error:", err)
+	}
+
+	fmt.Println("*******************************************")
+}
