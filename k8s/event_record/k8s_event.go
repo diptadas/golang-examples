@@ -26,7 +26,7 @@ func main() {
 	resource := &core.ConfigMap{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "example-configmap",
-			Namespace: "default",
+			Namespace: metav1.NamespaceDefault,
 		},
 	}
 
@@ -37,7 +37,7 @@ func main() {
 	}
 
 	log.Println("Creating new resource")
-	resource, err = kubeClient.CoreV1().ConfigMaps("default").Create(resource)
+	resource, err = kubeClient.CoreV1().ConfigMaps(resource.Namespace).Create(resource)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -48,10 +48,9 @@ func main() {
 	time.Sleep(time.Second) // time to complete event
 
 	log.Println("Creating events directly")
-	event, err := createEvent(kubeClient, "golang-examples", resource, core.EventTypeNormal, "event-test-new-1", "new event is recorded")
+	event, err := createEvent(kubeClient, "golang-examples", resource, core.EventTypeNormal, "event-test-2", "new event is recorded")
 	if err != nil {
 		log.Fatal(err.Error())
-
 	} else {
 		log.Println("Event recorded:", event.Name)
 	}
