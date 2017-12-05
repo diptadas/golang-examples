@@ -2,12 +2,12 @@ package test
 
 import "testing"
 
-type testpair struct {
+type testPair struct {
 	input  []int
 	output int
 }
 
-var tests = []testpair{
+var tests = []testPair{
 	{[]int{0, 1, 2}, 3},
 	{[]int{1, 2, 3}, 5}, // fail
 	{[]int{2, 3, 4}, 9},
