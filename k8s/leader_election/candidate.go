@@ -8,7 +8,6 @@ import (
 	"time"
 
 	core "k8s.io/api/core/v1"
-	kerr "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
@@ -20,36 +19,24 @@ import (
 func main() {
 	flag.Parse()
 
-	leaderElectionLease := 3 * time.Second
-	configMapName := "lock-leader"
-	namespace := "default"
-	podName := "my-pod-" + flag.Arg(0)
-
+	podName := fmt.Sprintf("my-pod-%v", time.Now().Nanosecond())
 	fmt.Println("Leader Election for pod:", podName)
 
-	kubeConfigPath := os.Getenv("HOME") + "/.kube/config"
-	config, err := clientcmd.BuildConfigFromFlags("", kubeConfigPath)
-	if err != nil {
-		log.Fatalf(err.Error())
-	}
-	kubeClient, err := kubernetes.NewForConfig(config)
+	kubeClient, err := getKubeClient()
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
 
 	configMap := &core.ConfigMap{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      configMapName,
-			Namespace: namespace,
+			Name:      "my-pod-leader-lock",
+			Namespace: metav1.NamespaceDefault,
 		},
-	}
-	if _, err := kubeClient.CoreV1().ConfigMaps(namespace).Create(configMap); err != nil && !kerr.IsAlreadyExists(err) {
-		log.Fatal(err)
 	}
 
 	resLock := &resourcelock.ConfigMapLock{
 		ConfigMapMeta: configMap.ObjectMeta,
-		Client: kubeClient.CoreV1(),
+		Client:        kubeClient.CoreV1(),
 		LockConfig: resourcelock.ResourceLockConfig{
 			Identity:      podName,
 			EventRecorder: &record.FakeRecorder{},
@@ -59,6 +46,8 @@ func main() {
 	stopLeading := make(chan struct{})
 
 	go func() {
+		leaderElectionLease := 3 * time.Second
+
 		leaderelection.RunOrDie(leaderelection.LeaderElectionConfig{
 			Lock:          resLock,
 			LeaseDuration: leaderElectionLease,
@@ -78,6 +67,15 @@ func main() {
 	select {}
 }
 
+func getKubeClient() (kubernetes.Interface, error) {
+	kubeConfigPath := os.Getenv("HOME") + "/.kube/config"
+	config, err := clientcmd.BuildConfigFromFlags("", kubeConfigPath)
+	if err != nil {
+		return nil, err
+	}
+	return kubernetes.NewForConfig(config)
+}
+
 func restOfCode(stop chan struct{}) {
 	fmt.Println("Got leadership, running rest of code...")
 	<-stop
@@ -87,5 +85,5 @@ func restOfCode(stop chan struct{}) {
 /*
 go run candidate.go 1 -v=10
 go run candidate.go 2 -v=10
-kubectl describe configmap lock-leader
+kubectl describe configmap my-pod-leader-lock
 */
