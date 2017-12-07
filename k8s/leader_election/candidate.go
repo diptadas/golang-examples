@@ -83,7 +83,8 @@ func restOfCode(stop chan struct{}) {
 }
 
 /*
-go run candidate.go 1 -v=10
-go run candidate.go 2 -v=10
+go run candidate.go
+go run candidate.go
 kubectl describe configmap my-pod-leader-lock
+kubectl delete configmap my-pod-leader-lock
 */
