@@ -2,24 +2,43 @@ package main
 
 import (
 	"crypto/tls"
+	"crypto/x509"
 	"fmt"
 	"golang-examples/tls_server/gen_cert"
 	"io/ioutil"
 	"log"
 	"net/http"
+
 	"k8s.io/client-go/util/cert"
 )
 
+const (
+	caCertPath     = "/tmp/ca.crt"
+	caKeyPath      = "/tmp/ca.key"
+	clientCertPath = "/tmp/client.crt"
+	clientKeyPath  = "/tmp/client.key"
+)
+
 func main() {
-	if err := gen_cert.GenerateCertKey("client.crt", "client.key", "ca.crt", "ca.key"); err != nil {
+	// generate client cert and key signed by CA
+	opt := gen_cert.Options{
+		CACertPath: caCertPath,
+		CAKeyPath:  caKeyPath,
+		Config: cert.Config{
+			CommonName: "client",
+			Usages:     []x509.ExtKeyUsage{x509.ExtKeyUsageAny},
+		},
+	}
+	if err := opt.Generate(clientCertPath, clientKeyPath); err != nil {
 		log.Fatal(err)
 	}
 
-	caCertPool, err := cert.NewPool("ca.crt")
+	caCertPool, err := cert.NewPool(caCertPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	cert, err := tls.LoadX509KeyPair("client.crt", "client.key")
+
+	cert, err := tls.LoadX509KeyPair(clientCertPath, clientKeyPath)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -3,84 +3,54 @@ package gen_cert
 import (
 	"crypto/rsa"
 	"crypto/x509"
+
 	"k8s.io/client-go/util/cert"
 )
 
-func GenerateCA(caCertPath, caKeyPath string) error {
-	// check CA already exists
-	if ok, err := cert.CanReadCertAndKey(caCertPath, caKeyPath); err == nil && ok {
-		return nil
-	}
-
-	// generate CA key
-	caKey, err := cert.NewPrivateKey()
-	if err != nil {
-		return err
-	}
-	if err := cert.WriteKey(caKeyPath, cert.EncodePrivateKeyPEM(caKey)); err != nil {
-		return err
-	}
-
-	// generate CA cert
-	caCert, err := cert.NewSelfSignedCACert(
-		cert.Config{
-			CommonName:   "ac",
-			Organization: []string{"ac"},
-		},
-		caKey,
-	)
-	if err != nil {
-		return err
-	}
-	if err := cert.WriteCert(caCertPath, cert.EncodeCertPEM(caCert)); err != nil {
-		return err
-	}
-
-	return nil
+type Options struct {
+	SelSigned  bool
+	CACertPath string // required when selfSigned false
+	CAKeyPath  string // required when selfSigned false
+	Config     cert.Config
 }
 
-func GenerateCertKey(certPath, keyPath, caCertPath, caKeyPath string) error {
-	if err := GenerateCA(caCertPath, caKeyPath); err != nil {
-		return err
-	}
-	caCerts, err := cert.CertsFromFile(caCertPath)
-	if err != nil {
-		return err
-	}
-	caKey, err := cert.PrivateKeyFromFile(caKeyPath)
-	if err != nil {
-		return err
-	}
-
-	// generate user key
-	userKey, err := cert.NewPrivateKey()
-	if err != nil {
-		return err
-	}
-	if err := cert.WriteKey(keyPath, cert.EncodePrivateKeyPEM(userKey)); err != nil {
-		return err
-	}
-
-	// generate user cert signed by CA
-	userCert, err := cert.NewSignedCert(
-		cert.Config{
-			CommonName:   "ac",
-			Organization: []string{"ac"},
-			AltNames:     cert.AltNames{
-				DNSNames: []string{"localhost"},
-			},
-			Usages:       []x509.ExtKeyUsage{x509.ExtKeyUsageAny},
-		},
-		userKey,
-		caCerts[0],
-		caKey.(*rsa.PrivateKey),
+func (op Options) Generate(newCertPath, newKeyPath string) error {
+	var (
+		newCert *x509.Certificate
+		newKey  *rsa.PrivateKey
+		err     error
 	)
-	if err != nil {
+
+	// generate and write key
+	if newKey, err = cert.NewPrivateKey(); err != nil {
 		return err
-	}
-	if err := cert.WriteCert(certPath, cert.EncodeCertPEM(userCert)); err != nil {
+	} else if err = cert.WriteKey(newKeyPath, cert.EncodePrivateKeyPEM(newKey)); err != nil {
 		return err
 	}
 
-	return nil
+	// generate and write cert
+	if op.SelSigned {
+		if newCert, err = cert.NewSelfSignedCACert(op.Config, newKey); err != nil {
+			return err
+		}
+	} else {
+		if caCert, caKey, err := loadCertPair(op.CACertPath, op.CAKeyPath); err != nil {
+			return err
+		} else if newCert, err = cert.NewSignedCert(op.Config, newKey, caCert, caKey); err != nil {
+			return err
+		}
+	}
+	return cert.WriteCert(newCertPath, cert.EncodeCertPEM(newCert))
+}
+
+func loadCertPair(certPath, keyPath string) (*x509.Certificate, *rsa.PrivateKey, error) {
+	certs, err := cert.CertsFromFile(certPath)
+	if err != nil {
+		return nil, nil, err
+	}
+	key, err := cert.PrivateKeyFromFile(keyPath)
+	if err != nil {
+		return nil, nil, err
+	}
+	return certs[0], key.(*rsa.PrivateKey), err
 }

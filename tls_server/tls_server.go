@@ -2,23 +2,54 @@ package main
 
 import (
 	"crypto/tls"
+	"golang-examples/tls_server/gen_cert"
 	"log"
 	"net/http"
-	"golang-examples/tls_server/gen_cert"
+
+	"crypto/x509"
+
 	"k8s.io/client-go/util/cert"
 )
 
+const (
+	caCertPath     = "/tmp/ca.crt"
+	caKeyPath      = "/tmp/ca.key"
+	serverCertPath = "/tmp/server.crt"
+	serverKeyPath  = "/tmp/server.key"
+)
+
 func main() {
-	if err := gen_cert.GenerateCertKey("server.crt", "server.key", "ca.crt", "ca.key"); err != nil {
-		panic(err)
+	// generate CA cert and key
+	opt := gen_cert.Options{
+		SelSigned: true,
+		Config:    cert.Config{},
+	}
+	if err := opt.Generate(caCertPath, caKeyPath); err != nil {
+		log.Fatal(err)
 	}
 
-	caCertPool, err := cert.NewPool("ca.crt")
+	// generate server cert and key signed by CA
+	opt = gen_cert.Options{
+		CACertPath: caCertPath,
+		CAKeyPath:  caKeyPath,
+		Config: cert.Config{
+			CommonName: "server",
+			AltNames: cert.AltNames{
+				DNSNames: []string{"localhost"},
+			},
+			Usages: []x509.ExtKeyUsage{x509.ExtKeyUsageAny},
+		},
+	}
+	if err := opt.Generate(serverCertPath, serverKeyPath); err != nil {
+		log.Fatal(err)
+	}
+
+	caCertPool, err := cert.NewPool(caCertPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	srv := &http.Server{
+	server := &http.Server{
 		Addr:    ":8443",
 		Handler: &handler{},
 		TLSConfig: &tls.Config{
@@ -28,7 +59,7 @@ func main() {
 	}
 
 	log.Println("TLS server running at port 8443")
-	log.Fatal(srv.ListenAndServeTLS("server.crt", "server.key"))
+	log.Fatal(server.ListenAndServeTLS(serverCertPath, serverKeyPath))
 }
 
 type handler struct{}
