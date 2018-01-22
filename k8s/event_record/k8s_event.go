@@ -1,9 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
-	"fmt"
 	"time"
 
 	core "k8s.io/api/core/v1"

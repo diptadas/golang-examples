@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"k8s.io/apimachinery/pkg/labels"
+	"log"
 )
 
 func main() {

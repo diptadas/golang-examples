@@ -7,4 +7,3 @@ func Sum(values []int) int {
 	}
 	return sum
 }
-
