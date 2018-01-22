@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-example-svc
+  labels:
+    app: grpc-example
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8088
+    nodePort: 30088
+  selector:
+    app: grpc-example
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: grpc-example-dep
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: grpc-example
+    spec:
+      containers:
+      - name: grpc-example
+        image: diptadas/grpc-example:latest
+        ports:
+        - containerPort: 8088
