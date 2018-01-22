@@ -20,6 +20,33 @@
   revision = "de5bf2ad457846296e2031421a34e2568e304e35"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/appscode/go"
+  packages = [
+    "context",
+    "log",
+    "log/golog",
+    "types"
+  ]
+  revision = "979b75cb554996ed0e5c2ba4a3538ca163a329b8"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/appscode/kutil"
+  packages = [
+    ".",
+    "core/v1",
+    "meta"
+  ]
+  revision = "76bbf723312576014852a9ee842913c554cc7b0b"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/appscode/mergo"
+  packages = ["."]
+  revision = "e3000cb3d28c72b837601cac94debd91032d19fe"
+
+[[projects]]
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
   revision = "346938d642f2ec3594ed81d874461961cd0faa76"
@@ -33,6 +60,12 @@
   ]
   revision = "5741799b275a3c4a5a9623a993576d7545cf7b5c"
   version = "v2.4.0"
+
+[[projects]]
+  name = "github.com/emicklei/go-restful-swagger12"
+  packages = ["."]
+  revision = "dcef7f55730566d41eae5db10e7d6981829720f6"
+  version = "1.0.1"
 
 [[projects]]
   name = "github.com/ghodss/yaml"
@@ -105,6 +138,17 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/google/go-cmp"
+  packages = [
+    "cmp",
+    "cmp/internal/diff",
+    "cmp/internal/function",
+    "cmp/internal/value"
+  ]
+  revision = "97aa668b73e764ccdd786bc3ccd2edffe621150e"
+
+[[projects]]
+  branch = "master"
   name = "github.com/google/go-querystring"
   packages = ["query"]
   revision = "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
@@ -114,6 +158,12 @@
   name = "github.com/google/gofuzz"
   packages = ["."]
   revision = "24818f796faf91cd76ec7bddd72458fbced7a6c1"
+
+[[projects]]
+  name = "github.com/google/uuid"
+  packages = ["."]
+  revision = "064e2069ce9c359c118179501254f67d7d37ba24"
+  version = "0.2"
 
 [[projects]]
   name = "github.com/googleapis/gnostic"
@@ -133,6 +183,13 @@
     "diskcache"
   ]
   revision = "2bcd89a1743fd4b373f7370ce8ddc14dfbd18229"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hashicorp/go-version"
+  packages = ["."]
+  revision = "53932f80ddea12bea96be074f9fb2dc545806aba"
+  source = "https://github.com/appscode/go-version.git"
 
 [[projects]]
   branch = "master"
@@ -357,12 +414,9 @@
   revision = "c95af922eae69f190717a0b7148960af8c55a072"
 
 [[projects]]
-  branch = "master"
   name = "k8s.io/api"
   packages = [
     "admissionregistration/v1alpha1",
-    "admissionregistration/v1beta1",
-    "apps/v1",
     "apps/v1beta1",
     "apps/v1beta2",
     "authentication/v1",
@@ -376,7 +430,6 @@
     "batch/v2alpha1",
     "certificates/v1beta1",
     "core/v1",
-    "events/v1beta1",
     "extensions/v1beta1",
     "networking/v1",
     "policy/v1beta1",
@@ -386,15 +439,14 @@
     "scheduling/v1alpha1",
     "settings/v1alpha1",
     "storage/v1",
-    "storage/v1alpha1",
     "storage/v1beta1"
   ]
-  revision = "57d7f151236665c12202a51c21bc939eb5d5ba91"
+  revision = "fe29995db37613b9c5b2a647544cf627bfa8d299"
 
 [[projects]]
-  branch = "master"
   name = "k8s.io/apimachinery"
   packages = [
+    "pkg/api/equality",
     "pkg/api/errors",
     "pkg/api/meta",
     "pkg/api/resource",
@@ -404,6 +456,7 @@
     "pkg/apis/meta/v1alpha1",
     "pkg/conversion",
     "pkg/conversion/queryparams",
+    "pkg/conversion/unstructured",
     "pkg/fields",
     "pkg/labels",
     "pkg/runtime",
@@ -437,7 +490,7 @@
     "third_party/forked/golang/json",
     "third_party/forked/golang/reflect"
   ]
-  revision = "a463f34d125a31787d2be8b47bcf6370b0cf1bde"
+  revision = "019ae5ada31de202164b118aee88ee2d14075c31"
 
 [[projects]]
   name = "k8s.io/client-go"
@@ -446,8 +499,6 @@
     "kubernetes",
     "kubernetes/scheme",
     "kubernetes/typed/admissionregistration/v1alpha1",
-    "kubernetes/typed/admissionregistration/v1beta1",
-    "kubernetes/typed/apps/v1",
     "kubernetes/typed/apps/v1beta1",
     "kubernetes/typed/apps/v1beta2",
     "kubernetes/typed/authentication/v1",
@@ -461,7 +512,6 @@
     "kubernetes/typed/batch/v2alpha1",
     "kubernetes/typed/certificates/v1beta1",
     "kubernetes/typed/core/v1",
-    "kubernetes/typed/events/v1beta1",
     "kubernetes/typed/extensions/v1beta1",
     "kubernetes/typed/networking/v1",
     "kubernetes/typed/policy/v1beta1",
@@ -471,7 +521,6 @@
     "kubernetes/typed/scheduling/v1alpha1",
     "kubernetes/typed/settings/v1alpha1",
     "kubernetes/typed/storage/v1",
-    "kubernetes/typed/storage/v1alpha1",
     "kubernetes/typed/storage/v1beta1",
     "pkg/version",
     "rest",
@@ -489,27 +538,23 @@
     "tools/record",
     "tools/reference",
     "transport",
-    "util/buffer",
     "util/cert",
     "util/flowcontrol",
     "util/homedir",
     "util/integer"
   ]
-  revision = "78700dec6369ba22221b72770783300f143df150"
-  version = "v6.0.0"
+  revision = "2ae454230481a7cb5544325e12ad7658ecccd19b"
+  version = "v5.0.1"
 
 [[projects]]
   branch = "master"
   name = "k8s.io/kube-openapi"
-  packages = [
-    "pkg/common",
-    "pkg/util/proto"
-  ]
+  packages = ["pkg/common"]
   revision = "b16ebc07f5cad97831f961e4b5a9cc1caed33b7e"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "2dfe783583495ea288f1d44306adae8c6206cbf6b01bba7067608bffc16bbefb"
+  inputs-digest = "38473e9546066fa4b6827716cc9be78e18b903533765caf9363e80a5d36be8e7"
   solver-name = "gps-cdcl"
   solver-version = 1
