@@ -10,7 +10,7 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
 
-	gw "grpc-example/proto"
+	gw "golang-examples/grpc_example/proto"
 )
 
 var (

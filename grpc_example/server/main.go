@@ -6,8 +6,8 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	pb "grpc-example/proto"
-	pr "grpc-example/proxy"
+	pb "golang-examples/grpc_example/proto"
+	pr "golang-examples/grpc_example/proxy"
 )
 
 
