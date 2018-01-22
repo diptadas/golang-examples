@@ -21,10 +21,11 @@ limitations under the License.
 package internalversion
 
 import (
+	unsafe "unsafe"
+
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	conversion "k8s.io/apimachinery/pkg/conversion"
 	runtime "k8s.io/apimachinery/pkg/runtime"
-	unsafe "unsafe"
 )
 
 func init() {

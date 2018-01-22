@@ -4,12 +4,13 @@ import (
 	"log"
 	"os"
 
+	"fmt"
+
 	core_util "github.com/appscode/kutil/core/v1"
 	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
-	"fmt"
 )
 
 func main() {
@@ -19,7 +20,7 @@ func main() {
 	}
 
 	meta := metav1.ObjectMeta{
-		Name: "my-svc",
+		Name:      "my-svc",
 		Namespace: core.NamespaceDefault,
 	}
 

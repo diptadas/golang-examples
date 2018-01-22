@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"strings"
+
+	"github.com/spf13/cobra"
 )
 
 func NewCmdEcho() *cobra.Command {
@@ -13,7 +14,7 @@ func NewCmdEcho() *cobra.Command {
 	c := &cobra.Command{
 		Use:   "echo [string to echo]",
 		Short: "Echo anything to the screen",
-		Long: "Echo is for printing anything back to the screen.",
+		Long:  "Echo is for printing anything back to the screen.",
 		Run: func(cmd *cobra.Command, args []string) {
 
 			if Verbose {
@@ -27,7 +28,7 @@ func NewCmdEcho() *cobra.Command {
 		},
 	}
 
-	c.Flags().Int64VarP(&times,"times", "t",1, "echo multiple times")
+	c.Flags().Int64VarP(&times, "times", "t", 1, "echo multiple times")
 	c.AddCommand(NewCmdUpper())
 
 	return c

@@ -4,9 +4,10 @@ import (
 	"log"
 	"os"
 
+	pb "golang-examples/grpc_example/proto"
+
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	pb "golang-examples/grpc_example/proto"
 )
 
 const (

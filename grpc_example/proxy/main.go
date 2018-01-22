@@ -1,13 +1,13 @@
 package proxy
 
 import (
-	"log"
 	"flag"
+	"log"
 	"net/http"
 
 	"github.com/golang/glog"
-	"golang.org/x/net/context"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
 	gw "golang-examples/grpc_example/proto"

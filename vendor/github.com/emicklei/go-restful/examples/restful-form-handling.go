@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/emicklei/go-restful"
-	"github.com/gorilla/schema"
 	"io"
 	"log"
 	"net/http"
+
+	"github.com/emicklei/go-restful"
+	"github.com/gorilla/schema"
 )
 
 // This example shows how to handle a POST of a HTML form that uses the standard x-www-form-urlencoded content-type.

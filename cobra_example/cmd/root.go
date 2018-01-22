@@ -18,4 +18,3 @@ func NewCmd() *cobra.Command {
 	c.AddCommand(NewCmdLogo(), NewCmdEcho())
 	return c
 }
-

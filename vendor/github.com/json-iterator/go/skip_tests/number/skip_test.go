@@ -3,10 +3,11 @@ package test
 import (
 	"encoding/json"
 	"errors"
-	"github.com/json-iterator/go"
-	"github.com/stretchr/testify/require"
 	"io"
 	"testing"
+
+	"github.com/json-iterator/go"
+	"github.com/stretchr/testify/require"
 )
 
 func Test_skip(t *testing.T) {

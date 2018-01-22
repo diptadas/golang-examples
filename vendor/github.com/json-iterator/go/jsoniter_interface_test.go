@@ -6,8 +6,9 @@ import (
 	"testing"
 	"unsafe"
 
-	"github.com/stretchr/testify/require"
 	"reflect"
+
+	"github.com/stretchr/testify/require"
 )
 
 func Test_write_empty_interface_via_placeholder(t *testing.T) {

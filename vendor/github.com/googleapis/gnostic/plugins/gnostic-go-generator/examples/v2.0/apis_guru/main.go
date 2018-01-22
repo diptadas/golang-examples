@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-        "github.com/googleapis/gnostic/plugins/gnostic-go-generator/examples/v2.0/apis_guru/apis_guru"
 	"sort"
+
+	"github.com/googleapis/gnostic/plugins/gnostic-go-generator/examples/v2.0/apis_guru/apis_guru"
 )
 
 func main() {

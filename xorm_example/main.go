@@ -3,25 +3,24 @@
 package main
 
 import (
-	_ "github.com/lib/pq"
-	"github.com/go-xorm/xorm"
-	"fmt"
 	"errors"
-	"time"
+	"fmt"
 	"strconv"
+	"time"
+
+	"github.com/go-xorm/xorm"
+	_ "github.com/lib/pq"
 )
 
-
 type UserInfo struct {
-	Id   int64 // If field name is Id and type is int64, xorm makes it as auto increment primary key
-	Name string
-	CityId int64
+	Id        int64 // If field name is Id and type is int64, xorm makes it as auto increment primary key
+	Name      string
+	CityId    int64
 	UpdatedAt time.Time `xorm:"updated"`
 }
 
-
 type CityInfo struct {
-	CityId int64 `xorm:"pk autoincr"`
+	CityId   int64 `xorm:"pk autoincr"`
 	CityName string
 }
 
@@ -34,20 +33,19 @@ func (UserCity) TableName() string { // used for join
 	return "user_info"
 }
 
-func (CityInfo) BeforeInsert(){ // event method on struct
+func (CityInfo) BeforeInsert() { // event method on struct
 	fmt.Println("event: before data insert in CityInfo")
 }
 
-func (CityInfo) AfterInsert(){ // event method on struct
+func (CityInfo) AfterInsert() { // event method on struct
 	fmt.Println("event: after data insert in CityInfo")
 }
 
-func (CityInfo) BeforeSet(name string, cell xorm.Cell){ // event method on struct
+func (CityInfo) BeforeSet(name string, cell xorm.Cell) { // event method on struct
 	fmt.Println("event: after data find and before set in CityInfo", name)
 }
 
-
-func showTables(engine *xorm.Engine){
+func showTables(engine *xorm.Engine) {
 	fmt.Println("\n### showTables")
 
 	tables, err := engine.DBMetas()
@@ -64,7 +62,7 @@ func showTables(engine *xorm.Engine){
 	// engine.IsTableEmpty(&User{})
 }
 
-func createTables(engine *xorm.Engine){
+func createTables(engine *xorm.Engine) {
 	fmt.Println("\n### createTables")
 
 	err := engine.CreateTables(&UserInfo{}, &CityInfo{})
@@ -75,7 +73,7 @@ func createTables(engine *xorm.Engine){
 	fmt.Println("tables created")
 }
 
-func dropTables(engine *xorm.Engine){
+func dropTables(engine *xorm.Engine) {
 	fmt.Println("\n### dropTables")
 
 	err := engine.DropTables(&UserInfo{}, &CityInfo{})
@@ -87,7 +85,7 @@ func dropTables(engine *xorm.Engine){
 	fmt.Println("tables deleted")
 }
 
-func insertData(engine *xorm.Engine){
+func insertData(engine *xorm.Engine) {
 	fmt.Println("\n### insertData")
 
 	_, err := engine.Insert(
@@ -105,10 +103,10 @@ func insertData(engine *xorm.Engine){
 	fmt.Println("data inserted")
 }
 
-func getSingleData(engine *xorm.Engine){
+func getSingleData(engine *xorm.Engine) {
 	fmt.Println("\n### getSingleData")
 
-	info := CityInfo{CityName:"Ctg"}
+	info := CityInfo{CityName: "Ctg"}
 	_, err := engine.Get(&info)
 
 	if err != nil {
@@ -125,9 +123,8 @@ func getSingleData(engine *xorm.Engine){
 	*/
 }
 
-func findMultipleData(engine *xorm.Engine){
+func findMultipleData(engine *xorm.Engine) {
 	fmt.Println("\n### findMultipleData")
-
 
 	var cities []CityInfo // using array
 	err := engine.Find(&cities)
@@ -149,14 +146,14 @@ func findMultipleData(engine *xorm.Engine){
 	*/
 }
 
-func iterateTable(engine *xorm.Engine){
+func iterateTable(engine *xorm.Engine) {
 	fmt.Println("\n### iterateTable")
 
 	// Iterate, like find, but handle records one by one
 
-	err := engine.Iterate(new(UserInfo), func(i int, bean interface{}) (err error){
+	err := engine.Iterate(new(UserInfo), func(i int, bean interface{}) (err error) {
 
-		defer func(){
+		defer func() {
 			if r := recover(); r != nil {
 				err = errors.New("error: " + fmt.Sprintf("%v", r))
 			}
@@ -176,7 +173,7 @@ func iterateTable(engine *xorm.Engine){
 	}
 }
 
-func joinTable(engine *xorm.Engine){
+func joinTable(engine *xorm.Engine) {
 	fmt.Println("\n### joinTable")
 
 	var users []UserCity
@@ -188,7 +185,7 @@ func joinTable(engine *xorm.Engine){
 	fmt.Println(users)
 }
 
-func updateData(engine *xorm.Engine){
+func updateData(engine *xorm.Engine) {
 	fmt.Println("\n### updateData")
 
 	info := UserInfo{}
@@ -208,7 +205,7 @@ func updateData(engine *xorm.Engine){
 	fmt.Println("data updated")
 }
 
-func sqlQuery(engine *xorm.Engine){
+func sqlQuery(engine *xorm.Engine) {
 	fmt.Println("\n### sqlQuery")
 
 	// If select then use Query
@@ -224,7 +221,7 @@ func sqlQuery(engine *xorm.Engine){
 
 	var users []UserInfo
 
-	for _,result := range results{
+	for _, result := range results {
 		var user UserInfo
 
 		user.Id, err = strconv.ParseInt(string(result["id"]), 10, 64)
@@ -275,7 +272,7 @@ func sqlCommand(engine *xorm.Engine) {
 	fmt.Println("Rows Affected:", rosAffected)
 }
 
-func sessionTransaction(engine *xorm.Engine){
+func sessionTransaction(engine *xorm.Engine) {
 	fmt.Println("\n### sessionTransaction")
 
 	session := engine.NewSession()
@@ -308,7 +305,7 @@ func sessionTransaction(engine *xorm.Engine){
 	fmt.Println("transection commited")
 }
 
-func sessionProcessEvents(engine *xorm.Engine){
+func sessionProcessEvents(engine *xorm.Engine) {
 	fmt.Println("\n### sessionProcessEvents")
 
 	session := engine.NewSession()
@@ -316,10 +313,10 @@ func sessionProcessEvents(engine *xorm.Engine){
 
 	session.Begin()
 
-	before := func(bean interface{}){
+	before := func(bean interface{}) {
 		fmt.Println("before", bean)
 	}
-	after := func(bean interface{}){
+	after := func(bean interface{}) {
 		fmt.Println("after", bean)
 	}
 	session.Before(before).After(after).Insert(&UserInfo{4, "aaa", 3, time.Time{}})
@@ -330,7 +327,6 @@ func sessionProcessEvents(engine *xorm.Engine){
 	session.Commit()
 }
 
-
 func main() {
 
 	engine, err := xorm.NewEngine("postgres", "host=localhost port=5432 user=postgres password=vagrant dbname=test-dipta")
@@ -339,7 +335,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	defer  engine.Close()
+	defer engine.Close()
 
 	// engine.ShowSQL(true)
 

@@ -1,15 +1,15 @@
 package main
 
 import (
+	pb "golang-examples/grpc_example/proto"
+	pr "golang-examples/grpc_example/proxy"
 	"log"
 	"net"
+
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	pb "golang-examples/grpc_example/proto"
-	pr "golang-examples/grpc_example/proxy"
 )
-
 
 const (
 	port = ":50051"

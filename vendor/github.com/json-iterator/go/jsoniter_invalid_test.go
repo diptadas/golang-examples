@@ -3,9 +3,10 @@ package jsoniter
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/stretchr/testify/require"
 	"io"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func Test_missing_object_end(t *testing.T) {

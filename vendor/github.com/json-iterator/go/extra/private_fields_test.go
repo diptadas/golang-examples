@@ -1,9 +1,10 @@
 package extra
 
 import (
+	"testing"
+
 	"github.com/json-iterator/go"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func Test_private_fields(t *testing.T) {
