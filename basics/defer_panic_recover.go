@@ -26,13 +26,13 @@ func c() {
 
 func f() {
 	defer func() {
-		defer fmt.Println("f: Defer 1")
+		fmt.Println("f: Defer 1")
 		if r := recover(); r != nil {
 			fmt.Println("f: Recover 1", r)
 		}
 	}()
 	defer func() {
-		defer fmt.Println("f: Defer 2")
+		fmt.Println("f: Defer 2")
 		if r := recover(); r != nil {
 			fmt.Println("f: Recover 2", r)
 		}
