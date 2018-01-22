@@ -93,6 +93,24 @@
   revision = "84f4bee7c0a6db40e3166044c7983c1c32125429"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/go-xorm/builder"
+  packages = ["."]
+  revision = "488224409dd8aa2ce7a5baf8d10d55764a913738"
+
+[[projects]]
+  name = "github.com/go-xorm/core"
+  packages = ["."]
+  revision = "da1adaf7a28ca792961721a34e6e04945200c890"
+  version = "v0.5.7"
+
+[[projects]]
+  name = "github.com/go-xorm/xorm"
+  packages = ["."]
+  revision = "1933dd69e294c0a26c0266637067f24dbb25770c"
+  version = "v0.6.4"
+
+[[projects]]
   name = "github.com/gogo/protobuf"
   packages = [
     "proto",
@@ -231,6 +249,15 @@
   name = "github.com/juju/ratelimit"
   packages = ["."]
   revision = "59fac5042749a5afb9af70e813da1dd5474f0167"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/lib/pq"
+  packages = [
+    ".",
+    "oid"
+  ]
+  revision = "27ea5d92de30060e7121ddd543fe14e9a327e0cc"
 
 [[projects]]
   branch = "master"
@@ -611,6 +638,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "5a2c45adc5d72a8e62f8ff14930240bc5e5fb6615718a00e70b6c8dbfc7eaebf"
+  inputs-digest = "f5e1aeef565b3dbc8ca8788fb471dc537c21dc85a5fb6c566872d4dd53f8fcd1"
   solver-name = "gps-cdcl"
   solver-version = 1
