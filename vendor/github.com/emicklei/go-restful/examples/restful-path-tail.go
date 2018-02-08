@@ -1,11 +1,10 @@
 package main
 
 import (
+	. "github.com/emicklei/go-restful"
 	"io"
 	"log"
 	"net/http"
-
-	. "github.com/emicklei/go-restful"
 )
 
 // This example shows how to create a Route matching the "tail" of a path.

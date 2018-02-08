@@ -22,13 +22,12 @@ import (
 	"crypto/sha512"
 	"encoding/json"
 	"fmt"
+	"gopkg.in/yaml.v2"
 	"mime"
 	"net/http"
 	"strings"
 	"sync"
 	"time"
-
-	"gopkg.in/yaml.v2"
 
 	"github.com/NYTimes/gziphandler"
 	"github.com/emicklei/go-restful"

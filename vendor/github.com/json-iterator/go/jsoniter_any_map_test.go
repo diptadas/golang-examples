@@ -1,9 +1,8 @@
 package jsoniter
 
 import (
-	"testing"
-
 	"github.com/stretchr/testify/require"
+	"testing"
 )
 
 func Test_wrap_map(t *testing.T) {

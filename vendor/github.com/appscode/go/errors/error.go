@@ -5,9 +5,8 @@ import (
 	gtx "context"
 	"fmt"
 
-	"strings"
-
 	"github.com/facebookgo/stack"
+	"strings"
 )
 
 // New returns a Status representing c and msg.

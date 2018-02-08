@@ -1,9 +1,8 @@
 package jsoniter
 
 import (
-	"testing"
-
 	"github.com/stretchr/testify/require"
+	"testing"
 )
 
 func Test_writeByte_should_grow_buffer(t *testing.T) {

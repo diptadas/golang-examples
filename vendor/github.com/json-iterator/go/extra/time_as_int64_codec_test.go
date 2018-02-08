@@ -1,11 +1,10 @@
 package extra
 
 import (
-	"testing"
-	"time"
-
 	"github.com/json-iterator/go"
 	"github.com/stretchr/testify/require"
+	"testing"
+	"time"
 )
 
 func Test_time_as_int64(t *testing.T) {

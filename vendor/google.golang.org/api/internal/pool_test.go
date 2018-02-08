@@ -17,10 +17,9 @@ limitations under the License.
 package internal
 
 import (
+	"google.golang.org/grpc/naming"
 	"testing"
 	"time"
-
-	"google.golang.org/grpc/naming"
 )
 
 func TestConnectionPool(t *testing.T) {

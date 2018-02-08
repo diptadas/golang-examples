@@ -21,8 +21,22 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/appscode/g2"
+  packages = [
+    "client",
+    "pkg/runtime",
+    "worker"
+  ]
+  revision = "90f2f9348a6303aa99cc24ffbeeb8555c0d299ee"
+
+[[projects]]
+  branch = "master"
   name = "github.com/appscode/go"
-  packages = ["types"]
+  packages = [
+    "context",
+    "log",
+    "types"
+  ]
   revision = "979b75cb554996ed0e5c2ba4a3538ca163a329b8"
 
 [[projects]]
@@ -176,6 +190,12 @@
   revision = "24818f796faf91cd76ec7bddd72458fbced7a6c1"
 
 [[projects]]
+  name = "github.com/google/uuid"
+  packages = ["."]
+  revision = "064e2069ce9c359c118179501254f67d7d37ba24"
+  version = "0.2"
+
+[[projects]]
   name = "github.com/googleapis/gnostic"
   packages = [
     "OpenAPIv2",
@@ -184,6 +204,12 @@
   ]
   revision = "ee43cbb60db7bd22502942cccbc39059117352ab"
   version = "v0.1.0"
+
+[[projects]]
+  name = "github.com/gorilla/websocket"
+  packages = ["."]
+  revision = "ea4d1f681babbce9545c9c5f3d5194a789c89f5b"
+  version = "v1.2.0"
 
 [[projects]]
   branch = "master"
@@ -268,6 +294,16 @@
     "jwriter"
   ]
   revision = "32fa128f234d041f196a9f3e0fea5ac9772c08e1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/mikespook/golib"
+  packages = [
+    "autoinc",
+    "idgen",
+    "signal"
+  ]
+  revision = "38fe6917d34b267a79c3432369e7dcc379e2d5b3"
 
 [[projects]]
   name = "github.com/onsi/ginkgo"
@@ -492,6 +528,21 @@
 
 [[projects]]
   branch = "v2"
+  name = "gopkg.in/mgo.v2"
+  packages = [
+    "bson",
+    "internal/json"
+  ]
+  revision = "3f83fa5005286a7fe593b055f0d7771a7dce4655"
+
+[[projects]]
+  branch = "v2"
+  name = "gopkg.in/robfig/cron.v2"
+  packages = ["."]
+  revision = "be2e0b0deed5a68ffee390b4583a13aff8321535"
+
+[[projects]]
+  branch = "v2"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   revision = "c95af922eae69f190717a0b7148960af8c55a072"
@@ -638,6 +689,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f5e1aeef565b3dbc8ca8788fb471dc537c21dc85a5fb6c566872d4dd53f8fcd1"
+  inputs-digest = "06926196c58cb71ce95660f110fe10c6d48d84f4f0da03120334abb9b97b2b76"
   solver-name = "gps-cdcl"
   solver-version = 1

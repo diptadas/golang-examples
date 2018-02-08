@@ -5,9 +5,8 @@ import (
 	"math/big"
 	"testing"
 
-	"strings"
-
 	"github.com/stretchr/testify/require"
+	"strings"
 )
 
 func Test_read_map(t *testing.T) {

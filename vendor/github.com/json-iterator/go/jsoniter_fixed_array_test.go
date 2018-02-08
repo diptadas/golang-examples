@@ -2,9 +2,8 @@ package jsoniter
 
 import (
 	"encoding/json"
-	"testing"
-
 	"github.com/stretchr/testify/require"
+	"testing"
 )
 
 func Test_encode_fixed_array(t *testing.T) {

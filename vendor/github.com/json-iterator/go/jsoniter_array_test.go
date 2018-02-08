@@ -3,9 +3,8 @@ package jsoniter
 import (
 	"bytes"
 	"encoding/json"
-	"testing"
-
 	"github.com/stretchr/testify/require"
+	"testing"
 )
 
 func Test_empty_array(t *testing.T) {

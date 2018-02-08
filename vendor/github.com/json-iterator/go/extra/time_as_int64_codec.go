@@ -1,10 +1,9 @@
 package extra
 
 import (
+	"github.com/json-iterator/go"
 	"time"
 	"unsafe"
-
-	"github.com/json-iterator/go"
 )
 
 // RegisterTimeAsInt64Codec encode/decode time since number of unit since epoch. the precision is the unit.

@@ -10,7 +10,6 @@ import (
 	"reflect"
 	"testing"
 	"time"
-
 	"gopkg.in/yaml.v2"
 )
 

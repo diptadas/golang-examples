@@ -1,9 +1,8 @@
 package extra
 
 import (
-	"unicode"
-
 	"github.com/json-iterator/go"
+	"unicode"
 )
 
 // SupportPrivateFields include private fields when encoding/decoding

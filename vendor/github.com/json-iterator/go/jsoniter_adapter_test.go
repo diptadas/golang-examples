@@ -3,10 +3,9 @@ package jsoniter
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"testing"
-
-	"github.com/stretchr/testify/require"
 )
 
 func Test_new_decoder(t *testing.T) {

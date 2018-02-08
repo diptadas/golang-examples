@@ -19,9 +19,8 @@ import (
 	"fmt"
 	"log"
 
-	"strings"
-
 	openapiv3 "github.com/googleapis/gnostic/OpenAPIv3"
+	"strings"
 )
 
 // NewModelFromOpenAPIv3 builds a model of an API service for use in code generation.
@@ -274,7 +273,7 @@ func (b *OpenAPI3Builder) typeForSchema(schema *openapiv3.Schema) (kind FieldKin
 				items := schema.Items.SchemaOrReference
 				if len(items) == 1 {
 					if items[0].GetReference().GetXRef() != "" {
-						return FieldKind_ARRAY, typeForRef(items[0].GetReference().GetXRef()), format
+						return FieldKind_ARRAY,  typeForRef(items[0].GetReference().GetXRef()), format
 					} else if items[0].GetSchema().Type == "string" {
 						return FieldKind_ARRAY, "string", format
 					} else if items[0].GetSchema().Type == "object" {
