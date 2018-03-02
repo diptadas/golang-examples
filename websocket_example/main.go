@@ -5,9 +5,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/gorilla/websocket"
 	"fmt"
 	"io"
+
+	"github.com/gorilla/websocket"
 )
 
 var (

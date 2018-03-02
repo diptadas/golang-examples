@@ -5,9 +5,10 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-	"google.golang.org/api/iterator"
-	"golang.org/x/net/context"
+
 	"cloud.google.com/go/storage"
+	"golang.org/x/net/context"
+	"google.golang.org/api/iterator"
 )
 
 func Write(ctx context.Context, client *storage.Client, bucket, object string) error {
@@ -205,4 +206,3 @@ func RotateEncryptionKey(ctx context.Context, client *storage.Client, bucket, ob
 
 	return nil
 }
-

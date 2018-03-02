@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"log"
-	storage "google.golang.org/api/storage/v1"
 	"io/ioutil"
-	"golang.org/x/oauth2/google"
-	"golang.org/x/oauth2"
-	"strings"
+	"log"
 	"os"
+	"strings"
+
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
+	storage "google.golang.org/api/storage/v1"
 )
 
 func getStorageService() (*storage.Service, error) {
@@ -30,7 +31,7 @@ func getStorageService() (*storage.Service, error) {
 		return nil, err
 	}
 
-	return  service, nil
+	return service, nil
 }
 
 func main() {
@@ -47,23 +48,22 @@ func main() {
 
 	// create bucket if not exists
 
-	if _, err := service.Buckets.Get(bucketName).Do(); err!= nil {
+	if _, err := service.Buckets.Get(bucketName).Do(); err != nil {
 		fmt.Println("bucket not exists, creating bucket...")
-		if _, err := service.Buckets.Insert(projectID, &storage.Bucket{Name:bucketName}).Do();
-			err!=nil {
+		if _, err := service.Buckets.Insert(projectID, &storage.Bucket{Name: bucketName}).Do(); err != nil {
 			fmt.Println("error creating bucket")
-		}else{
+		} else {
 			fmt.Println("bucket created")
 		}
-	}else{
+	} else {
 		fmt.Println("bucket exists")
 	}
 
 	// list all buckets
 
-	if list, err := service.Buckets.List(projectID).Do(); err!=nil {
+	if list, err := service.Buckets.List(projectID).Do(); err != nil {
 		fmt.Println(err)
-	}else {
+	} else {
 		for i := range list.Items {
 			fmt.Println(list.Items[i].Name)
 		}
@@ -72,10 +72,9 @@ func main() {
 	// list objects
 
 	prefix := "abc/"
-	if list, err := service.Objects.List(bucketName).Prefix(prefix).Delimiter("/").Do();
-		err != nil {
+	if list, err := service.Objects.List(bucketName).Prefix(prefix).Delimiter("/").Do(); err != nil {
 		fmt.Println(err)
-	}else {
+	} else {
 		for _, item := range list.Prefixes {
 			name := strings.TrimPrefix(item, prefix)
 			fmt.Println(name)
@@ -91,14 +90,14 @@ func main() {
 	// insert object
 
 	objName := "abc/file.txt"
-	object := &storage.Object{Name:objName}
+	object := &storage.Object{Name: objName}
 
-	if f, err := os.Open("notes.txt"); err!=nil {
+	if f, err := os.Open("notes.txt"); err != nil {
 		fmt.Println(err)
-	}else{
+	} else {
 		if _, err := service.Objects.Insert(bucketName, object).Media(f).Do(); err != nil {
 			fmt.Println(err)
-		}else{
+		} else {
 			fmt.Println("object inserted")
 			f.Close()
 		}
@@ -109,7 +108,7 @@ func main() {
 
 	if _, err := service.Objects.Copy(bucketName, oldName, bucketName, newName, &storage.Object{}).Do(); err != nil {
 		fmt.Println(err)
-	}else{
+	} else {
 		fmt.Println("object copied")
 	}
 
@@ -121,4 +120,3 @@ func main() {
 		fmt.Println("object deleted")
 	}*/
 }
-

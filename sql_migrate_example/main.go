@@ -1,10 +1,11 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+
 	_ "github.com/lib/pq"
 	"github.com/rubenv/sql-migrate"
-	"database/sql"
 )
 
 func main() {
@@ -15,7 +16,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	defer  db.Close()
+	defer db.Close()
 
 	// Read migrations from a folder
 	migrations := &migrate.FileMigrationSource{
@@ -42,7 +43,7 @@ func main() {
 		return
 	}
 
-	for _, stat := range status{
+	for _, stat := range status {
 		fmt.Println(*stat)
 	}
 }

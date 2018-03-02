@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"golang.org/x/net/context"
-	"cloud.google.com/go/storage"
-	"google.golang.org/api/option"
 	"gcs-bucket-operations/go-client/bucket"
 	"gcs-bucket-operations/go-client/object"
+	"log"
+
+	"cloud.google.com/go/storage"
+	"golang.org/x/net/context"
+	"google.golang.org/api/option"
 )
 
 func main() {
@@ -32,9 +33,9 @@ func main() {
 	buckets, err := bucket.List(ctx, client, projectID)
 	if err != nil {
 		fmt.Println(err)
-	}else{
+	} else {
 		fmt.Println("bucket list:")
-		for _,bucket := range buckets {
+		for _, bucket := range buckets {
 			fmt.Println(bucket)
 		}
 	}
@@ -45,13 +46,13 @@ func main() {
 
 	if err := bucket.Delete(ctx, client, bucketName); err != nil {
 		fmt.Println(err)
-	}else{
+	} else {
 		fmt.Printf("deleted bucket: %v\n", bucketName)
 	}
 
 	if err := object.Write(ctx, client, bucketName, "new-file.txt"); err != nil {
 		fmt.Println(err)
-	}else {
+	} else {
 		fmt.Println("file uploaded")
 	}
 
@@ -59,4 +60,3 @@ func main() {
 		fmt.Println(err)
 	}
 }
-

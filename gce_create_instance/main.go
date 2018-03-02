@@ -1,13 +1,14 @@
 package main
 
 import (
-	"io/ioutil"
+	"context"
 	"fmt"
+	"io/ioutil"
+	"log"
+
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	compute "google.golang.org/api/compute/v1"
-	"log"
-	"context"
 )
 
 func getComputeService() (*compute.Service, error) {
@@ -29,10 +30,10 @@ func getComputeService() (*compute.Service, error) {
 		return nil, err
 	}
 
-	return  computeService, nil
+	return computeService, nil
 }
 
-func instanceList(ctx context.Context, computeService *compute.Service, project string, zone string){
+func instanceList(ctx context.Context, computeService *compute.Service, project string, zone string) {
 
 	req := computeService.Instances.List(project, zone)
 
@@ -46,13 +47,13 @@ func instanceList(ctx context.Context, computeService *compute.Service, project 
 	}
 }
 
-func instanceCreate(ctx context.Context, computeService *compute.Service, project, zone, name, imageName string){
+func instanceCreate(ctx context.Context, computeService *compute.Service, project, zone, name, imageName string) {
 
 	machineType := fmt.Sprintf("projects/%v/zones/%v/machineTypes/n1-standard-1", project, zone)
 	srcImage := fmt.Sprintf("projects/%v/global/images/%v", project, imageName)
 
 	requestBody := &compute.Instance{
-		Name: name,
+		Name:        name,
 		MachineType: machineType,
 		NetworkInterfaces: []*compute.NetworkInterface{
 			{
@@ -88,7 +89,7 @@ func instanceCreate(ctx context.Context, computeService *compute.Service, projec
 
 }
 
-func main(){
+func main() {
 
 	ctx := context.Background()
 	computeService, err := getComputeService()

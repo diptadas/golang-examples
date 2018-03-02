@@ -2,8 +2,9 @@ package bucket
 
 import (
 	"fmt"
-	"golang.org/x/net/context"
+
 	"cloud.google.com/go/storage"
+	"golang.org/x/net/context"
 	"google.golang.org/api/iterator"
 )
 
@@ -56,11 +57,11 @@ func Delete(ctx context.Context, client *storage.Client, bucketName string) erro
 	return nil
 }
 
-func GetACLs(ctx context.Context, client *storage.Client, bucketName string) error{
+func GetACLs(ctx context.Context, client *storage.Client, bucketName string) error {
 
 	acls, err := client.Bucket(bucketName).ACL().List(ctx)
 	if err != nil {
-		return  err
+		return err
 	}
 
 	fmt.Println("ACL:")
