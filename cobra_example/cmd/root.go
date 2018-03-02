@@ -4,17 +4,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var Verbose bool
+var verbose bool
 
 func NewCmd() *cobra.Command {
-
 	c := &cobra.Command{
-		Use:     "echo",
-		Short:   "Simple echo using Cobra",
-		Example: "echo logo",
+		Use:     "my-cli",
+		Short:   "Simple CLI using Cobra",
+		Example: "my-cli logo",
 	}
-
-	c.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
+	c.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
 	c.AddCommand(NewCmdLogo(), NewCmdEcho())
 	return c
 }
