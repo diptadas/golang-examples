@@ -1,3 +1,4 @@
+```
 $ sudo apt install nginx
 
 $ subl /etc/nginx/sites-enabled/default 
@@ -37,6 +38,5 @@ $ sudo service nginx restart
               -login-url=https://github.com/login/oauth/authorize \
               -cookie-secure=false \
               -redirect-url=http://127.0.0.1:4180
-
-
+```
 
