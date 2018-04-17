@@ -4,10 +4,11 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"golang-examples/tls_server/gen_cert"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/diptadas/golang-examples/tls_server/gen_cert"
 
 	"k8s.io/client-go/util/cert"
 )
