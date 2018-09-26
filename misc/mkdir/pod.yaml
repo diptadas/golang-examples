@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mkdir-test
+spec:
+  containers:
+  - name: mkdir-test
+    image: diptadas/mkdir-test
+    env:
+    - name: HOME
+      value: /kubeci/home
+    volumeMounts:
+    - name: kubeci-storage
+      mountPath: /kubeci/home
+    imagePullPolicy: IfNotPresent
+  volumes:
+  - name: kubeci-storage
+    hostPath:
+      path: /kubeci/12345/home
+      type: DirectoryOrCreate
+  restartPolicy: Never
