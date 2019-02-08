@@ -22,17 +22,21 @@ const (
 func main() {
 	// generate CA cert and key
 	opt := gen_cert.Options{
-		SelSigned: true,
-		Config:    cert.Config{},
+		SelSigned:      true,
+		OutputCertPath: caCertPath,
+		OutputKeyPath:  caKeyPath,
+		Config:         cert.Config{},
 	}
-	if err := opt.Generate(caCertPath, caKeyPath); err != nil {
+	if err := opt.Generate(); err != nil {
 		log.Fatal(err)
 	}
 
 	// generate server cert and key signed by CA
 	opt = gen_cert.Options{
-		CACertPath: caCertPath,
-		CAKeyPath:  caKeyPath,
+		CACertPath:     caCertPath,
+		CAKeyPath:      caKeyPath,
+		OutputCertPath: serverCertPath,
+		OutputKeyPath:  serverKeyPath,
 		Config: cert.Config{
 			CommonName: "server",
 			AltNames: cert.AltNames{
@@ -41,7 +45,7 @@ func main() {
 			Usages: []x509.ExtKeyUsage{x509.ExtKeyUsageAny},
 		},
 	}
-	if err := opt.Generate(serverCertPath, serverKeyPath); err != nil {
+	if err := opt.Generate(); err != nil {
 		log.Fatal(err)
 	}
 

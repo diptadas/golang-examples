@@ -23,14 +23,16 @@ const (
 func main() {
 	// generate client cert and key signed by CA
 	opt := gen_cert.Options{
-		CACertPath: caCertPath,
-		CAKeyPath:  caKeyPath,
+		CACertPath:     caCertPath,
+		CAKeyPath:      caKeyPath,
+		OutputCertPath: clientCertPath,
+		OutputKeyPath:  clientKeyPath,
 		Config: cert.Config{
 			CommonName: "client",
 			Usages:     []x509.ExtKeyUsage{x509.ExtKeyUsageAny},
 		},
 	}
-	if err := opt.Generate(clientCertPath, clientKeyPath); err != nil {
+	if err := opt.Generate(); err != nil {
 		log.Fatal(err)
 	}
 

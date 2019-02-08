@@ -3,6 +3,7 @@ package gen_cert
 import (
 	"crypto/rsa"
 	"crypto/x509"
+	"log"
 
 	"k8s.io/client-go/util/cert"
 )
@@ -11,20 +12,26 @@ type Options struct {
 	SelSigned  bool
 	CACertPath string // required when selfSigned false
 	CAKeyPath  string // required when selfSigned false
-	Config     cert.Config
+
+	OutputCertPath string
+	OutputKeyPath  string
+
+	Config cert.Config
 }
 
-func (op Options) Generate(newCertPath, newKeyPath string) error {
+func (op Options) Generate() error {
 	var (
 		newCert *x509.Certificate
 		newKey  *rsa.PrivateKey
 		err     error
 	)
 
+	log.Printf("Creating certs with options: %#v\n", op)
+
 	// generate and write key
 	if newKey, err = cert.NewPrivateKey(); err != nil {
 		return err
-	} else if err = cert.WriteKey(newKeyPath, cert.EncodePrivateKeyPEM(newKey)); err != nil {
+	} else if err = cert.WriteKey(op.OutputKeyPath, cert.EncodePrivateKeyPEM(newKey)); err != nil {
 		return err
 	}
 
@@ -40,7 +47,7 @@ func (op Options) Generate(newCertPath, newKeyPath string) error {
 			return err
 		}
 	}
-	return cert.WriteCert(newCertPath, cert.EncodeCertPEM(newCert))
+	return cert.WriteCert(op.OutputCertPath, cert.EncodeCertPEM(newCert))
 }
 
 func loadCertPair(certPath, keyPath string) (*x509.Certificate, *rsa.PrivateKey, error) {
