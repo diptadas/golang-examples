@@ -1,11 +1,11 @@
 package main
 
 import (
-	pb "golang-examples/grpc_example/proto"
-	pr "golang-examples/grpc_example/proxy"
 	"log"
 	"net"
 
+	pb "github.com/diptadas/golang-examples/grpc_example/proto"
+	pr "github.com/diptadas/golang-examples/grpc_example/proxy"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

@@ -2,13 +2,11 @@ package main
 
 import (
 	"crypto/tls"
+	"crypto/x509"
 	"log"
 	"net/http"
 
 	"github.com/diptadas/golang-examples/tls_server/gen_cert"
-
-	"crypto/x509"
-
 	"k8s.io/client-go/util/cert"
 )
 

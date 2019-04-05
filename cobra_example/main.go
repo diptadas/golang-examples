@@ -1,8 +1,9 @@
 package main
 
 import (
-	"golang-examples/cobra_example/cmd"
 	"os"
+
+	"github.com/diptadas/golang-examples/cobra_example/cmd"
 )
 
 func main() {

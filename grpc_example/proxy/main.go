@@ -5,12 +5,11 @@ import (
 	"log"
 	"net/http"
 
+	gw "github.com/diptadas/golang-examples/grpc_example/proto"
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-
-	gw "golang-examples/grpc_example/proto"
 )
 
 var (

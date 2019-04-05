@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"gcs-bucket-operations/go-client/bucket"
-	"gcs-bucket-operations/go-client/object"
 	"log"
 
 	"cloud.google.com/go/storage"
+	"github.com/diptadas/golang-examples/gcs_bucket_operations/go-client/bucket"
+	"github.com/diptadas/golang-examples/gcs_bucket_operations/go-client/object"
 	"golang.org/x/net/context"
 	"google.golang.org/api/option"
 )

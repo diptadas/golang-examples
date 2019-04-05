@@ -9,7 +9,6 @@ import (
 	"net/http"
 
 	"github.com/diptadas/golang-examples/tls_server/gen_cert"
-
 	"k8s.io/client-go/util/cert"
 )
 
