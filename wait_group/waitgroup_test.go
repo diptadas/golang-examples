@@ -1,12 +1,13 @@
-package main
+package wait_group
 
 import (
-	"fmt"
+	"log"
 	"sync"
+	"testing"
 	"time"
 )
 
-func main() {
+func TestWaitGroup(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
@@ -19,25 +20,25 @@ func main() {
 	}()
 
 	wg.Wait()
-	fmt.Println("end")
+	t.Logf("end")
 }
 
 func fn(stopCh <-chan struct{}, wg *sync.WaitGroup) {
-	fmt.Println("started")
+	log.Println("started")
 	t := time.NewTicker(1 * time.Second)
 
 loop:
 	for i := 1; ; i++ {
 		select {
 		case <-stopCh:
-			fmt.Println("signal stopCh")
+			log.Println("signal stopCh")
 			break loop
 		case <-t.C:
-			fmt.Println("main iteration", i)
+			log.Println("main iteration", i)
 
 		}
 	}
 
-	fmt.Println("stopped")
+	log.Println("stopped")
 	wg.Done()
 }
