@@ -1,11 +1,13 @@
-package main
+package websocket
 
 import (
 	"bufio"
-	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
+	"strings"
+	"testing"
 
 	"github.com/gorilla/websocket"
 )
@@ -21,10 +23,9 @@ var (
 func wsReader(ws *websocket.Conn, writer io.Writer) {
 	for {
 		_, data, err := ws.ReadMessage()
-
 		if err != nil {
-			fmt.Println(err)
-			break
+			log.Println(err)
+			return
 		}
 		writer.Write(data)
 	}
@@ -32,38 +33,35 @@ func wsReader(ws *websocket.Conn, writer io.Writer) {
 
 func wsWriter(ws *websocket.Conn, reader io.Reader) {
 	scanner := bufio.NewScanner(reader)
-
 	for scanner.Scan() {
 		if err := ws.WriteMessage(websocket.TextMessage, scanner.Bytes()); err != nil {
-			fmt.Println(err)
+			log.Println(scanner.Err())
 			return
 		}
 	}
-
 	if scanner.Err() != nil {
-		fmt.Println(scanner.Err())
+		log.Println(scanner.Err())
 	}
 }
 
 func serveWs(w http.ResponseWriter, r *http.Request) {
+	log.Println("Serving /ws")
+
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		if _, ok := err.(websocket.HandshakeError); !ok {
-			fmt.Println(err)
-		}
+		log.Println(err)
 		return
 	}
-
 	if err := ws.WriteMessage(websocket.TextMessage, []byte("websocket connected")); err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
-
-	go wsWriter(ws, os.Stdin)
+	go wsWriter(ws, strings.NewReader("hello world"))
 	go wsReader(ws, os.Stdout)
 }
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
+	log.Println("Serving /")
 	if r.URL.Path != "/" {
 		http.Error(w, "Not found", 404)
 		return
@@ -75,10 +73,10 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "home.html")
 }
 
-func main() {
+func TestWebsocket(t *testing.T) {
 	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/ws", serveWs)
 	if err := http.ListenAndServe(addr, nil); err != nil {
-		fmt.Println(err)
+		t.Fatal(err)
 	}
 }
