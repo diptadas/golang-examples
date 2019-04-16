@@ -1,4 +1,4 @@
-package gen_cert
+package tls
 
 import (
 	"crypto/rsa"
@@ -8,7 +8,7 @@ import (
 	"k8s.io/client-go/util/cert"
 )
 
-type Options struct {
+type CertGenerator struct {
 	SelSigned  bool
 	CACertPath string // required when selfSigned false
 	CAKeyPath  string // required when selfSigned false
@@ -19,7 +19,7 @@ type Options struct {
 	Config cert.Config
 }
 
-func (op Options) Generate() error {
+func (op CertGenerator) Generate() error {
 	var (
 		newCert *x509.Certificate
 		newKey  *rsa.PrivateKey

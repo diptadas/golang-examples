@@ -1,27 +1,25 @@
-package main
+package tls
 
 import (
 	"crypto/tls"
 	"crypto/x509"
-	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
+	"testing"
 
-	"github.com/diptadas/golang-examples/tls_server/gen_cert"
 	"k8s.io/client-go/util/cert"
 )
 
-const (
-	caCertPath     = "/tmp/ca.crt"
-	caKeyPath      = "/tmp/ca.key"
-	clientCertPath = "/tmp/client.crt"
-	clientKeyPath  = "/tmp/client.key"
-)
+func TestTLSClient(t *testing.T) {
+	var (
+		caCertPath     = "/tmp/ca.crt"
+		caKeyPath      = "/tmp/ca.key"
+		clientCertPath = "/tmp/client.crt"
+		clientKeyPath  = "/tmp/client.key"
+	)
 
-func main() {
 	// generate client cert and key signed by CA
-	opt := gen_cert.Options{
+	opt := CertGenerator{
 		CACertPath:     caCertPath,
 		CAKeyPath:      caKeyPath,
 		OutputCertPath: clientCertPath,
@@ -32,17 +30,17 @@ func main() {
 		},
 	}
 	if err := opt.Generate(); err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	caCertPool, err := cert.NewPool(caCertPath)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	cert, err := tls.LoadX509KeyPair(clientCertPath, clientKeyPath)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	client := &http.Client{
@@ -56,15 +54,15 @@ func main() {
 
 	resp, err := client.Get("https://localhost:8443")
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	htmlData, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	defer resp.Body.Close()
 
-	fmt.Printf("%v\n", resp.Status)
-	fmt.Printf(string(htmlData))
+	t.Logf("%v\n", resp.Status)
+	t.Logf(string(htmlData))
 }

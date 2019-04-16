@@ -1,36 +1,36 @@
-package main
+package tls
 
 import (
 	"crypto/tls"
 	"crypto/x509"
 	"log"
 	"net/http"
+	"testing"
 
-	"github.com/diptadas/golang-examples/tls_server/gen_cert"
 	"k8s.io/client-go/util/cert"
 )
 
-const (
-	caCertPath     = "/tmp/ca.crt"
-	caKeyPath      = "/tmp/ca.key"
-	serverCertPath = "/tmp/server.crt"
-	serverKeyPath  = "/tmp/server.key"
-)
+func TestTLSServer(t *testing.T) {
+	var (
+		caCertPath     = "/tmp/ca.crt"
+		caKeyPath      = "/tmp/ca.key"
+		serverCertPath = "/tmp/server.crt"
+		serverKeyPath  = "/tmp/server.key"
+	)
 
-func main() {
 	// generate CA cert and key
-	opt := gen_cert.Options{
+	opt := CertGenerator{
 		SelSigned:      true,
 		OutputCertPath: caCertPath,
 		OutputKeyPath:  caKeyPath,
 		Config:         cert.Config{},
 	}
 	if err := opt.Generate(); err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	// generate server cert and key signed by CA
-	opt = gen_cert.Options{
+	opt = CertGenerator{
 		CACertPath:     caCertPath,
 		CAKeyPath:      caKeyPath,
 		OutputCertPath: serverCertPath,
@@ -44,12 +44,12 @@ func main() {
 		},
 	}
 	if err := opt.Generate(); err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	caCertPool, err := cert.NewPool(caCertPath)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	server := &http.Server{
@@ -61,8 +61,8 @@ func main() {
 		},
 	}
 
-	log.Println("TLS server running at port 8443")
-	log.Fatal(server.ListenAndServeTLS(serverCertPath, serverKeyPath))
+	t.Logf("TLS server running at port 8443")
+	t.Fatal(server.ListenAndServeTLS(serverCertPath, serverKeyPath))
 }
 
 type handler struct{}

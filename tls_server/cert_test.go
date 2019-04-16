@@ -1,24 +1,24 @@
-package main
+package tls
 
 import (
 	"crypto/x509"
 	"flag"
-	"log"
 	"net"
 	"strings"
+	"testing"
 
-	"github.com/diptadas/golang-examples/tls_server/gen_cert"
 	"k8s.io/client-go/util/cert"
 )
 
-func main() {
+func TestGenCerts(t *testing.T) {
 	var (
+		caCertPath = "certs/ca.crt"
+		caKeyPath  = "certs/ca.key"
+		certPath   = "certs/tls.crt"
+		keyPath    = "certs/tls.key"
+
 		reuseCA      = false
 		caCommonName = "CA"
-		caCertPath   = "ca.crt"
-		caKeyPath    = "ca.key"
-		certPath     = "tls.crt"
-		keyPath      = "tls.key"
 		domains      = ""
 		ips          = ""
 	)
@@ -29,7 +29,7 @@ func main() {
 	flag.Parse()
 
 	if !reuseCA { // create new CA certs first
-		opt := gen_cert.Options{
+		opt := CertGenerator{
 			SelSigned:      true,
 			OutputCertPath: caCertPath,
 			OutputKeyPath:  caKeyPath,
@@ -39,12 +39,12 @@ func main() {
 			},
 		}
 		if err := opt.Generate(); err != nil {
-			log.Fatal(err)
+			t.Fatal(err)
 		}
 	}
 
 	// sign new certs using CA
-	opt := gen_cert.Options{
+	opt := CertGenerator{
 		CACertPath:     caCertPath,
 		CAKeyPath:      caKeyPath,
 		OutputCertPath: certPath,
@@ -56,10 +56,10 @@ func main() {
 		},
 	}
 	if err := opt.Generate(); err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
-	log.Println("Successfully created certs")
+	t.Logf("Successfully created certs")
 }
 
 func parseCommonName(domains string) string {
