@@ -68,7 +68,7 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", 405)
 		return
 	}
-	http.ServeFile(w, r, "websocket_example/home.html")
+	http.ServeFile(w, r, "websocket/home.html")
 }
 
 func main() {

@@ -19,7 +19,7 @@ require (
 	github.com/google/go-querystring v0.0.0-20170111101155-53e6ce116135
 	github.com/google/uuid v0.0.0-20161128191214-064e2069ce9c // indirect
 	github.com/googleapis/gax-go v2.0.0+incompatible // indirect
-	github.com/gorilla/websocket v1.2.0
+	github.com/gorilla/websocket v1.4.2
 	github.com/grpc-ecosystem/grpc-gateway v1.3.1
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
