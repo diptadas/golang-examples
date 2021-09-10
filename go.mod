@@ -5,7 +5,7 @@ go 1.12
 require (
 	cloud.google.com/go v0.17.0
 	github.com/appscode/g2 v0.0.0-20171117194225-90f2f9348a63
-	github.com/appscode/go v0.0.0-20180111062442-979b75cb5549
+	github.com/appscode/go v0.0.0-20180111062442-979b75cb5549 // indirect
 	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 // indirect
 	github.com/codeskyblue/go-sh v0.0.0-20190328095946-f4ce45e7999e
 	github.com/denisenkom/go-mssqldb v0.0.0-20190328043727-2183450503ad // indirect
