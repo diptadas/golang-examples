@@ -1,15 +1,13 @@
-package websocket
+package main
 
 import (
 	"bufio"
+	"github.com/gorilla/websocket"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strings"
-	"testing"
-
-	"github.com/gorilla/websocket"
 )
 
 var (
@@ -70,13 +68,13 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", 405)
 		return
 	}
-	http.ServeFile(w, r, "home.html")
+	http.ServeFile(w, r, "websocket_example/home.html")
 }
 
-func TestWebsocket(t *testing.T) {
+func main() {
 	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/ws", serveWs)
 	if err := http.ListenAndServe(addr, nil); err != nil {
-		t.Fatal(err)
+		panic(err)
 	}
 }

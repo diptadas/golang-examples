@@ -1,13 +1,12 @@
-package wait_group
+package main
 
 import (
 	"log"
 	"sync"
-	"testing"
 	"time"
 )
 
-func TestWaitGroup(t *testing.T) {
+func main() {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
@@ -20,7 +19,7 @@ func TestWaitGroup(t *testing.T) {
 	}()
 
 	wg.Wait()
-	t.Logf("end")
+	log.Println("end")
 }
 
 func fn(stopCh <-chan struct{}, wg *sync.WaitGroup) {
