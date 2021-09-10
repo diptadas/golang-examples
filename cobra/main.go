@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/diptadas/golang-examples/cobra_example/cmd"
+	"github.com/diptadas/golang-examples/cobra/cmd"
 )
 
 func main() {

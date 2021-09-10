@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	pb "github.com/diptadas/golang-examples/grpc_example/proto"
+	pb "github.com/diptadas/golang-examples/grpc/proto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )

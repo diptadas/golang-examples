@@ -1,4 +1,4 @@
-package ginkgo_example_test
+package ginkgo_test
 
 import (
 	. "golang-examples/ginkgo_example"

@@ -1,4 +1,4 @@
-package ginkgo_example
+package ginkgo
 
 import "encoding/json"
 

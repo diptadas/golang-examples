@@ -4,8 +4,8 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/diptadas/golang-examples/grpc_example/proto"
-	pr "github.com/diptadas/golang-examples/grpc_example/proxy"
+	pb "github.com/diptadas/golang-examples/grpc/proto"
+	pr "github.com/diptadas/golang-examples/grpc/proxy"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
